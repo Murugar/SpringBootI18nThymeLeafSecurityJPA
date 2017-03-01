@@ -1,0 +1,15 @@
+logging:
+  file: logs/simple_ws.log
+  level:
+    org.springframework.web: INFO
+    com.antonchar.userservice.controllers: DEBUG
+
+liquibase:
+  enabled: true
+  change-log: classpath:liquibase/userservice.changelog.xml
+
+db:
+  driverClassName: org.postgresql.Driver
+  url: jdbc:postgresql://localhost:5432/user_service
+  username: postgres
+  password: postgres

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/skeleton :: head(title='Add User')"/>
+
+<body>
+
+<div class="container">
+    <div th:replace="fragments/skeleton :: lang(path='/user/add?')"/>
+
+    <div th:replace="fragments/skeleton :: signedUser"/>
+
+    <div th:replace="fragments/skeleton :: navbar"/>
+
+    <!--Content-->
+    <div class="jumbotron">
+
+        <!--Panel-->
+        <div class="panel panel-primary">
+
+            <div class="panel-heading" th:fragment="add_user_header">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                <span th:text="#{user.add.header}"></span>
+            </div>
+
+            <div class="panel-body" th:fragment="add_user_button">
+                <button type="submit" class="btn btn-default element-row" form="save-form">
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                    <span th:text="#{user.add.button}"></span>
+                </button>
+            </div>
+
+            <!--Form-->
+            <form id="save-form" th:action="@{/user/add}" method="POST">
+
+                <!--User table-->
+                <table class="table table-bordered">
+                    <thead>
+                    <tr/>
+                    </thead>
+
+                    <tbody>
+                    <tr>
+                        <td th:text="#{user.email}"></td>
+                        <td>
+                            <input class="form-control" type="email" th:placeholder="#{user.placeholder.email}"
+                                   name="email"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td th:text="#{user.name}"></td>
+                        <td>
+                            <input class="form-control" type="text" th:placeholder="#{user.placeholder.name}"
+                                   name="name"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td th:text="#{user.surname}"></td>
+                        <td>
+                            <input class="form-control" type="text" th:placeholder="#{user.placeholder.surname}"
+                                   name="surname"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td th:text="#{user.age}"></td>
+                        <td>
+                            <input class="form-control" type="number" th:placeholder="#{user.placeholder.age}"
+                                   name="age"/>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </form>
+        </div>
+    </div>
+
+    <div th:replace="fragments/skeleton :: footer"/>
+</div>
+
+<div th:replace="fragments/skeleton :: scripts(activeTab='#add_user')"/>
+</body>
+</html>

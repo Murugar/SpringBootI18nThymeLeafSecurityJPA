@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/skeleton :: head(title='Add User')"/>
+
+<body>
+
+<div class="container">
+    <div th:replace="fragments/skeleton :: signedUser"/>
+
+    <div th:replace="fragments/skeleton :: navbar"/>
+
+    <!--Content-->
+    <div class="jumbotron">
+
+        <!--Panel-->
+        <div class="panel panel-primary">
+            <div th:replace="user_add_form :: add_user_header"/>
+
+            <div th:replace="user_add_form :: add_user_button"/>
+
+            <!--Form-->
+            <form id="save-form" th:action="@{/user/add}" th:object="${newUser}" method="POST">
+
+                <!--User table-->
+                <table class="table table-bordered">
+                    <thead>
+                    <tr/>
+                    </thead>
+
+                    <tbody>
+                    <tr th:replace="fragments/tables :: showCheckedEmailRow"/>
+
+                    <tr th:replace="fragments/tables :: showCheckedNameRow"/>
+
+                    <tr th:replace="fragments/tables :: showCheckedSurnameRow"/>
+
+                    <tr th:replace="fragments/tables :: showCheckedAgeRow"/>
+                    </tbody>
+                </table>
+            </form>
+        </div>
+    </div>
+
+    <div th:replace="fragments/skeleton :: footer"/>
+</div>
+
+<div th:replace="fragments/skeleton :: scripts(activeTab='#add_user')"/>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/skeleton :: head(title='User Search')"/>
+
+<body>
+
+<div class="container">
+    <div th:replace="fragments/skeleton :: lang(path='/users/search?' + (${query != null} ? 'query=' + ${query} + '&amp;' : ''))"/>
+
+    <div th:replace="fragments/skeleton :: signedUser"/>
+
+    <div th:replace="fragments/skeleton :: navbar"/>
+
+    <!--Content-->
+    <div class="jumbotron">
+
+        <form class="form-inline" th:action="@{/users/search}" th:object="${user}" method="GET">
+            <div class="form-group">
+                <label for="input_name" th:text="#{user.search.label}"></label>
+                <input id="input_name" type="text" name="query" th:value="${query}"
+                       th:placeholder="#{user.search.placeholder}"/>
+            </div>
+            <button type="submit">
+                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                <span th:text="#{user.search.button}"></span>
+            </button>
+        </form>
+
+        <div th:if="${users != null and not #lists.isEmpty(users)}">
+            <table th:replace="fragments/tables :: userListTable(forPage='search')"/>
+        </div>
+    </div>
+
+    <div th:replace="fragments/skeleton :: footer"/>
+</div>
+
+<div th:replace="fragments/skeleton :: scripts(activeTab='#search_user')"/>
+</body>
+</html>

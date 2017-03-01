@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/skeleton :: head(title='Profile')"/>
+
+<body>
+
+<div class="container">
+    <div th:replace="fragments/skeleton :: lang(path='/user/' + ${id} + '?' + (${saved} ? 'saved=true&amp;' : ''))"/>
+
+    <div th:replace="fragments/skeleton :: signedUser"/>
+
+    <div th:replace="fragments/skeleton :: navbar"/>
+
+    <!--Content-->
+    <div class="jumbotron">
+
+        <!--Panel-->
+        <div class="panel panel-primary">
+
+            <div class="panel-heading">
+                <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                <span th:text="#{user.show.header}"></span>
+            </div>
+
+            <div class="panel-body">
+                <form th:if="${currentUser.id == existingUser.id or currentUser.isSuperAdmin()}"
+                      th:action="@{/user/edit}" method="POST">
+                    <input type="hidden" name="state" value="init"/>
+                    <button id="save-btn" type="submit" class="btn btn-default element-row">
+                        <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                        <span th:text="#{user.show.edit.button}"></span>
+                    </button>
+                    <div th:if="${saved}" class="alert alert-success element-row" role="alert">
+                        <span th:text="#{user.show.saved.success}"></span>
+                    </div>
+                </form>
+            </div>
+
+            <!--User table-->
+            <table class="table table-bordered" th:object="${existingUser}">
+                <thead>
+                <tr/>
+                </thead>
+
+                <tbody>
+                <tr th:replace="fragments/tables :: showEmailRow"/>
+
+                <tr th:replace="fragments/tables :: showNameRow"/>
+
+                <tr th:replace="fragments/tables :: showSurnameRow"/>
+
+                <tr th:replace="fragments/tables :: showAgeRow"/>
+
+                <tr th:replace="fragments/tables :: showRoleRow"/>
+
+                <tr th:replace="fragments/tables :: showCreationDateRow"/>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div th:replace="fragments/skeleton :: footer"/>
+</div>
+
+<div th:replace="fragments/skeleton :: scripts(activeTab='#profile')"/>
+</body>
+</html>

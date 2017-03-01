@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/skeleton :: head(title='Edit User Details')"/>
+
+<body>
+
+<div class="container">
+    <div th:replace="fragments/skeleton :: signedUser"/>
+
+    <div th:replace="fragments/skeleton :: navbar"/>
+
+    <!--Content-->
+    <div class="jumbotron">
+
+        <!--Panel-->
+        <div class="panel panel-primary">
+
+            <div class="panel-heading">
+                <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                <span th:text="#{user.edit.header}"></span>
+            </div>
+
+            <div class="panel-body">
+                <button type="submit" class="btn btn-default element-row" form="save-form">
+                    <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>
+                    <span th:text="#{user.edit.save.button}"></span>
+                </button>
+            </div>
+
+            <!--Form-->
+            <form id="save-form" th:action="@{/user/edit}" th:object="${existingUser}" method="POST">
+
+                <!--User table-->
+                <table class="table table-bordered">
+                    <thead>
+                    <tr/>
+                    </thead>
+
+                    <tbody>
+                    <tr th:replace="fragments/tables :: showEmailRow"/>
+
+                    <tr th:replace="fragments/tables :: showCheckedNameRow"/>
+
+                    <tr th:replace="fragments/tables :: showCheckedSurnameRow"/>
+
+                    <tr th:replace="fragments/tables :: showCheckedAgeRow"/>
+
+                    <tr th:replace="fragments/tables :: showRoleRow"/>
+
+                    <tr th:replace="fragments/tables :: showCreationDateRow"/>
+                    </tbody>
+                </table>
+            </form>
+        </div>
+    </div>
+
+    <div th:replace="fragments/skeleton :: footer"/>
+</div>
+
+<div th:replace="fragments/skeleton :: scripts(activeTab='#')"/>
+</body>
+</html>

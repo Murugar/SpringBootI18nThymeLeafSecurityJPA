@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8"/>
+    <title>Tables</title>
+</head>
+<body>
+<!--User List Table-->
+<table class="table table-hover" th:fragment="userListTable(forPage)">
+    <thead>
+    <tr class="thead">
+        <th th:text="#{user.email}"/>
+        <th th:text="#{user.name}"/>
+        <th th:text="#{user.surname}"/>
+        <th th:text="#{user.age}"/>
+        <th th:text="#{user.role}"/>
+        <th th:text="#{user.blocked}"/>
+        <th th:text="#{user.creationDate}"/>
+        <th th:if="${currentUser != null and currentUser.isSuperAdmin()}" th:text="#{user.operation.show-edit}"/>
+        <th th:if="${currentUser != null and currentUser.isAdmin()}" th:text="#{user.operation.show}"/>
+        <th th:if="${currentUser != null and currentUser.isSuperAdmin()}" th:text="#{user.operation.delete}"/>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr th:class="${user.blocked} ? 'danger' : ''" th:each="user : ${users}">
+        <div th:object="${user}">
+            <td th:text="*{email}"/>
+            <td th:text="*{name}"/>
+            <td th:text="*{surname}"/>
+            <td th:text="*{age}"/>
+            <td th:text="*{role}"/>
+            <td><span th:class="*{blocked} ? 'glyphicon glyphicon-ok' : ''" aria-hidden="true"></span></td>
+            <td th:text="*{#temporals.format(creationDate, 'dd-MMM-yyyy HH:mm')}"/>
+            <td>
+                <button>
+                    <a th:href="@{/user/{id}(id=*{id})}">
+                        <span class="glyphicon glyphicon-edit big-ico" aria-hidden="true"></span>
+                    </a>
+                </button>
+            </td>
+            <td th:if="${currentUser != null and currentUser.isSuperAdmin()}">
+                <button name="id" form="delete-form" type="submit" th:value="*{id}">
+                    <span class="glyphicon glyphicon-trash big-ico" aria-hidden="true"></span>
+                </button>
+            </td>
+        </div>
+    </tr>
+    </tbody>
+
+    <form th:if="${currentUser != null and currentUser.isSuperAdmin()}" id="delete-form" th:action="@{/user/delete}" method="POST">
+        <input th:if="${forPage} == 'list'" type="hidden" name="page" th:value="${currentIndex}"/>
+        <input th:if="${forPage} == 'search'" type="hidden" name="query" th:value="${query}"/>
+    </form>
+</table>
+
+
+<!--Show User Data Table-->
+<table>
+    <tbody>
+    <tr th:fragment="showEmailRow">
+        <td th:text="#{user.email}"/>
+        <td th:text="*{email}"/>
+    </tr>
+    <tr th:fragment="showNameRow">
+        <td th:text="#{user.name}"/>
+        <td th:text="*{name}"/>
+    </tr>
+    <tr th:fragment="showSurnameRow">
+        <td th:text="#{user.surname}"/>
+        <td th:text="*{surname}"/>
+    </tr>
+    <tr th:fragment="showAgeRow">
+        <td th:text="#{user.age}"/>
+        <td th:text="*{age}"/>
+    </tr>
+    <tr th:fragment="showRoleRow">
+        <td th:text="#{user.role}"/>
+        <td th:text="*{role}"/>
+    </tr>
+    <tr th:fragment="showCreationDateRow">
+        <td th:text="#{user.creationDate}"/>
+        <td th:text="*{#temporals.format(creationDate, 'dd-MMM-yyyy HH:mm')}"/>
+    </tr>
+    </tbody>
+</table>
+
+
+<!--Show Checked User Data Table-->
+<table>
+    <tbody>
+    <tr th:fragment="showCheckedEmailRow">
+        <td th:text="#{user.email}"/>
+        <td>
+            <div class="form-group" th:class="(${#fields.hasErrors('email')}) ? 'has-error' : ''">
+                <label class="control-label"
+                       th:if="${#fields.hasErrors('email')}" th:errors="*{email}">
+                </label>
+                <input class="form-control" type="email" th:placeholder="#{user.placeholder.email}"
+                       th:field="*{email}"/>
+            </div>
+        </td>
+    </tr>
+    <tr th:fragment="showCheckedNameRow">
+        <td th:text="#{user.name}"/>
+        <td>
+            <div class="form-group" th:class="(${#fields.hasErrors('name')}) ? 'has-error' : ''">
+                <label class="control-label"
+                       th:if="${#fields.hasErrors('name')}" th:errors="*{name}">
+                </label>
+                <input class="form-control" type="text" th:placeholder="#{user.placeholder.name}"
+                       th:field="*{name}"/>
+            </div>
+        </td>
+    </tr>
+    <tr th:fragment="showCheckedSurnameRow">
+        <td th:text="#{user.surname}"/>
+        <td>
+            <div class="form-group" th:class="(${#fields.hasErrors('surname')}) ? 'has-error' : ''">
+                <label class="control-label"
+                       th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}">
+                </label>
+                <input class="form-control" type="text" th:placeholder="#{user.placeholder.surname}"
+                       th:field="*{surname}"/>
+            </div>
+        </td>
+    </tr>
+    <tr th:fragment="showCheckedAgeRow">
+        <td th:text="#{user.age}"/>
+        <td>
+            <div class="form-group" th:class="(${#fields.hasErrors('age')}) ? 'has-error' : ''">
+                <label class="control-label"
+                       th:if="${#fields.hasErrors('age')}" th:errors="*{age}">
+                </label>
+                <input class="form-control" type="number" th:placeholder="#{user.placeholder.age}"
+                       th:field="*{age}"/>
+            </div>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/skeleton :: head(title='User List')"/>
+
+<body>
+
+<div class="container">
+    <div th:replace="fragments/skeleton :: lang(path='/users/pages/' + ${currentIndex} + '?')"/>
+
+    <div th:replace="fragments/skeleton :: signedUser"/>
+
+    <div th:replace="fragments/skeleton :: navbar"/>
+
+    <!--Content-->
+    <div class="jumbotron" th:with="users=${userPages.getContent()}">
+
+        <!--Pagination-->
+        <div th:with="prevIndex=${currentIndex} - 1, nextIndex=${currentIndex} + 1">
+
+            <div th:with="firstUrl='/users/pages/1', lastUrl='/users/pages/' + ${userPages.totalPages},
+            prevUrl='/users/pages/' + ${prevIndex}, nextUrl='/users/pages/' + ${nextIndex}">
+
+                <nav aria-label="Page navigation">
+                    <ul class="pagination">
+
+                        <!--Arrows back-->
+                        <li th:class="(${currentIndex} == 1) ? 'disabled' : ''">
+                            <a th:href="(${currentIndex} == 1) ? '#' : ${firstUrl}" aria-label="First">
+                                <span class="glyphicon glyphicon-fast-backward" aria-hidden="true"></span>
+                            </a>
+                        </li>
+                        <li th:class="(${currentIndex} == 1) ? 'disabled' : ''">
+                            <a th:href="(${currentIndex} == 1) ? '#' : ${prevUrl}" aria-label="Previous">
+                                <span class="glyphicon glyphicon-step-backward" aria-hidden="true"></span>
+                            </a>
+                        </li>
+
+                        <!--Page numbers-->
+                        <li th:each="i : ${#numbers.sequence(beginIndex, endIndex)}"
+                            th:class="(${i} == ${currentIndex}) ? 'active' : ''">
+                            <a th:href="'/users/pages/' + ${i}" th:text="${i}"></a>
+                        </li>
+
+                        <!--Arrows forward-->
+                        <li th:class="(${currentIndex} == ${userPages.totalPages}) ? 'disabled' : ''">
+                            <a th:href="(${currentIndex} == ${userPages.totalPages}) ? '#' : ${nextUrl}"
+                               aria-label="Next">
+                                <span class="glyphicon glyphicon-step-forward" aria-hidden="true"></span>
+                            </a>
+                        </li>
+                        <li th:class="(${currentIndex} == ${userPages.totalPages}) ? 'disabled' : ''">
+                            <a th:href="(${currentIndex} == ${userPages.totalPages}) ? '#' : ${lastUrl}"
+                               aria-label="Last">
+                                <span class="glyphicon glyphicon-fast-forward" aria-hidden="true"></span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+
+        <!--Panel-->
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                <span th:text="#{user.list.header}"></span>
+            </div>
+
+            <table th:replace="fragments/tables :: userListTable(forPage='list')"/>
+
+            <div class="panel-footer"></div>
+        </div>
+    </div>
+
+    <div th:replace="fragments/skeleton :: footer"/>
+</div>
+
+<div th:replace="fragments/skeleton :: scripts(activeTab='#user_list')"/>
+</body>
+</html>

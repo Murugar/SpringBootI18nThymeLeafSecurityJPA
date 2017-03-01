@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
+<head th:replace="fragments/skeleton :: head(title='User Management')"/>
+
+<body>
+
+<div class="container">
+    <div th:replace="fragments/skeleton :: lang(path='/?')"/>
+
+    <div th:replace="fragments/skeleton :: signedUser"/>
+
+    <div th:replace="fragments/skeleton :: navbar"/>
+
+    <!--Content-->
+    <div class="jumbotron">
+        <h1 th:text="#{user.title}"></h1>
+        <p th:text="#{user.main}">
+        </p>
+
+        <h2 th:text="#{home.tech.list}"></h2>
+        <p>Spring Boot, Maven, Spring MVC, PostGreSQL, Thymeleaf, Bootstrap, JPA (Hibernate), Lombok
+        </p>
+    </div>
+
+    <div th:replace="fragments/skeleton :: footer"/>
+</div>
+
+<div th:replace="fragments/skeleton :: scripts(activeTab='#home')"/>
+</body>
+</html>
